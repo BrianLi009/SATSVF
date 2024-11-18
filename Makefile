@@ -6,7 +6,7 @@ export PATH := $(PATH):$(CURDIR)/node_modules/SVF/Release-build/bin
 all: compile dump png
 
 compile:
-	clang++ -c -emit-llvm $(SRC).cpp -o $(SRC).bc
+	clang -c -S -fno-discard-value-names -emit-llvm $(SRC).c -o $(SRC).bc
 	# 1. use clang to compile it
 	# 2. execute `llvm-nm $(SRC)_ori.bc` to find important function.
 	# 3. extract only useful function.
@@ -18,19 +18,19 @@ compile:
 	# 	-o $(SRC).bc $(SRC)_ori.bc
 dump:
 	echo $(PATH)
-	# wpa -ander $(SRC).bc
-	# wpa -ander -dump-callgraph $(SRC).bc 
-	# wpa -fspta -dump-callgraph $(SRC).bc 
-	# wpa -ander -dump-pag $(SRC).bc 
-	# wpa -ander -dump-constraint-graph $(SRC).bc 
-	$(WPA) -ander -dump-icfg $(SRC).bc  -extapi=false -svfg-with-ind-call=false
-	# wpa -ander -svfg -dump-vfg $(SRC).bc 
-	# wpa -ander -svfg -dump-mssa $(SRC).bc 
+	# $(WPA) -ander $(SRC).bc
+	$(WPA) -ander -dump-callgraph $(SRC).bc 
+	# $(WPA) -fspta -dump-callgraph $(SRC).bc 
+	# $(WPA) -ander -dump-pag $(SRC).bc 
+	# $(WPA) -ander -dump-constraint-graph $(SRC).bc 
+	# $(WPA) -ander -dump-icfg $(SRC).bc  -extapi=false -svfg-with-ind-call=false
+	# $(WPA) -ander -svfg -dump-vfg $(SRC).bc 
+	# $(WPA) -ander -svfg -dump-mssa $(SRC).bc 
 png:
 	# dot -Tpng callgraph_final.dot -o callgraph_final.png
-	# dot -Tpng callgraph_initial.dot -o callgraph_initial.png
+	dot -Tpng callgraph_initial.dot -o callgraph_initial.png
 	# dot -Tpng consCG_final.dot -o consCG_final.png
-	dot -Tpng icfg_initial.dot -o icfg_initial.png
+	# dot -Tpng icfg_initial.dot -o icfg_initial.png
 	# dot -Tpng consCG_initial.dot -o consCG_initial.png
 	# dot -Tpng svfg_final.dot -o svfg_final.png
 	# dot -Tpng svfir_initial.dot -o svfir_initial.png
