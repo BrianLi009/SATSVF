@@ -5,4 +5,4 @@ package.json
 .vscode
 *.bc
 *.dot
-*.png
+# *.png
