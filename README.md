@@ -15,3 +15,19 @@ Each boolean variable should represent an edge in the graph.
 # SVF
 
 https://websvf.vercel.app
+
+Install:
+
+```sh
+brew install npm
+npm i svf-lib
+brew install graphviz
+```
+
+Run:
+
+```sh
+make compile
+make dump
+make png
+```

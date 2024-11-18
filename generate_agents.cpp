@@ -7,8 +7,8 @@
 #include <utility>
 
 // Helper function to generate combinations
-std::vector<std::vector<int>> combinations(int n, int k) {
-    std::vector<std::vector<int>> result;
+std::vector<std::vector<int> > combinations(int n, int k) {
+    std::vector<std::vector<int> > result;
     std::vector<bool> v(n);
     std::fill(v.end() - k, v.end(), true);
     
@@ -26,8 +26,8 @@ std::vector<std::vector<int>> combinations(int n, int k) {
 }
 
 // Helper function to generate edge combinations from vertices
-std::vector<std::pair<int, int>> get_edges(const std::vector<int>& vertices) {
-    std::vector<std::pair<int, int>> edges;
+std::vector<std::pair<int, int> > get_edges(const std::vector<int>& vertices) {
+    std::vector<std::pair<int, int> > edges;
     for (size_t i = 0; i < vertices.size(); ++i) {
         for (size_t j = i + 1; j < vertices.size(); ++j) {
             edges.push_back(std::make_pair(
@@ -41,7 +41,7 @@ std::vector<std::pair<int, int>> get_edges(const std::vector<int>& vertices) {
 
 std::string generate_ramsey_cnf(int N, int P, int Q) {
     // Generate all edges in the complete graph K_N
-    std::vector<std::pair<int, int>> edges;
+    std::vector<std::pair<int, int> > edges;
     for (int i = 1; i <= N; ++i) {
         for (int j = i + 1; j <= N; ++j) {
             edges.push_back(std::make_pair(i, j));
@@ -55,7 +55,7 @@ std::string generate_ramsey_cnf(int N, int P, int Q) {
         edge_to_var[edges[i]] = i + 1;
     }
     
-    std::vector<std::vector<int>> clauses;
+    std::vector<std::vector<int> > clauses;
     
     // Generate clauses for K_P (red edges)
     auto red_combinations = combinations(N, P);

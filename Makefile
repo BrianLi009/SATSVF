@@ -1,28 +1,29 @@
-SRC = generate
+SRC = generate_agents
+WPA = $(CURDIR)/node_modules/SVF/Release-build/bin/wpa
+export PATH := $(PATH):$(CURDIR)/node_modules/SVF/Release-build/bin
+# ae  cfl  dvf  llvm2svf  mta  saber  svf-ex  wpa
 
 all: compile dump png
 
-init:
-	# If use docker, I guess no need for add bin to path.
-	# ae  cfl  dvf  llvm2svf  mta  saber  svf-ex  wpa
-	export PATH=$PATH:/mnt/c/Users/creat/Desktop/svf-proj/node_modules/SVF/Release-build/bin
 compile:
-	clang++ -c -emit-llvm $(SRC).cpp -o $(SRC)_ori.bc
+	clang++ -c -emit-llvm $(SRC).cpp -o $(SRC).bc
 	# 1. use clang to compile it
 	# 2. execute `llvm-nm $(SRC)_ori.bc` to find important function.
 	# 3. extract only useful function.
-	llvm-extract -func=main -func=_Z4combii \
-		-func=_Z19vertex_combinationsRSt6vectorIS_IiSaIiEESaIS1_EEii \
-		-func=_Z17edge_combinationsRKSt6vectorIiSaIiEE \
-		-func=_Z8generateiii \
-		-o $(SRC).bc $(SRC)_ori.bc
+
+	# llvm-extract -func=main -func=_Z4combii \
+	# 	-func=_Z19vertex_combinationsRSt6vectorIS_IiSaIiEESaIS1_EEii \
+	# 	-func=_Z17edge_combinationsRKSt6vectorIiSaIiEE \
+	# 	-func=_Z8generateiii \
+	# 	-o $(SRC).bc $(SRC)_ori.bc
 dump:
+	echo $(PATH)
 	# wpa -ander $(SRC).bc
 	# wpa -ander -dump-callgraph $(SRC).bc 
 	# wpa -fspta -dump-callgraph $(SRC).bc 
 	# wpa -ander -dump-pag $(SRC).bc 
 	# wpa -ander -dump-constraint-graph $(SRC).bc 
-	wpa -ander -dump-icfg $(SRC).bc  -extapi=false -svfg-with-ind-call=false
+	$(WPA) -ander -dump-icfg $(SRC).bc  -extapi=false -svfg-with-ind-call=false
 	# wpa -ander -svfg -dump-vfg $(SRC).bc 
 	# wpa -ander -svfg -dump-mssa $(SRC).bc 
 png:
