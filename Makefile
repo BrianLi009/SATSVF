@@ -28,7 +28,7 @@ dump:
 	# $(WPA) -ander -svfg -dump-mssa $(SRC).bc 
 png:
 	# dot -Tpng callgraph_final.dot -o callgraph_final.png
-	dot -Tpng callgraph_initial.dot -o callgraph_initial.png
+	dot -Tpng -Gdpi=1200 -Kdot callgraph_initial.dot -o callgraph_initial.png
 	# dot -Tpng consCG_final.dot -o consCG_final.png
 	# dot -Tpng icfg_initial.dot -o icfg_initial.png
 	# dot -Tpng consCG_initial.dot -o consCG_initial.png
